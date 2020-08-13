@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +20,38 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+// Authentication Routes...
+// Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+// Route::post('login', 'Auth\LoginController@login');
+// Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+// Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+// Route::post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/imageUpload', function () {
+    return view('imageUpload');
+});
+
+Route::post('upload', function (Request $request) {
+
+    $image = $request->image;
+    $filename = $image->getClientOriginalName();      //保留原檔名
+    $destinationPath = 'public';  //設定路徑
+
+    $imagePath  = $image->storeAs("$destinationPath", $filename);
+    return $imagePath;
+});
